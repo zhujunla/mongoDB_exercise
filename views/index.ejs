@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/static/stylesheets/style.css'/>
+    <script src="/static/javascripts/jquery.js"></script>
+      <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.css">
+      <script src="/static/bootstrap/js/bootstrap.js"></script>
+  </head>
+  <body>
+    <h1><%= title %></h1>
+    <p>Welcome to <%= title %></p>
+    <div id="table">
+
+    </div>
+    <div>
+        <div>
+            姓名：<input type="text" id="username" name="username" placeholder="username">
+        </div>
+        <div >
+            mima：<input type="text" id="password"  name="password" placeholder="password">
+        </div>
+        <div id="submit">
+            注册
+        </div>
+        <div id="submitD">
+            登录
+        </div>
+        <div id="submitUp">
+            修改
+        </div>
+    </div>
+    <script>
+        var myobj = {
+            name:"测试玩意",
+            age:55
+        };
+        $("#submit").on("click",function () {
+            $("#username").val();
+            $("#password").val();
+            var myobj = {
+                username:$("#username").val(),
+                password:$("#password").val()
+            }
+            $.post('/com/user_login/register',myobj,function (res) {
+                console.info(res)
+            })
+        })
+
+        $("#submitD").on("click",function () {
+            $("#username").val();
+            $("#password").val();
+            var myobj = {
+                username:$("#username").val(),
+                password:$("#password").val()
+            }
+            $.post('/com/user_login/login',myobj,function (res) {
+                console.info(res)
+            })
+        })
+
+
+        $("#submitUp").on("click",function () {//更新
+            $("#username").val();
+            $("#password").val();
+            var myobj = {
+                username:$("#username").val(),
+                // password:$("#password").val()
+                information:'我是测试的',
+                aaaa:'我很熟啊'
+            }
+
+            $.ajax({
+                type: 'POST',
+                url: '/com/user_login/chaxunChange',
+                data: myobj,
+                headers:{"session_id":window.localStorage.session_id },
+                success:function (res) {
+                    var code = res.code;
+                    var msg = res.msg;
+                    console.info(res);
+                    if(code == 1){
+                        alert(msg)
+                    }
+                    else if(code==-1){
+                        alert(msg);
+                        window.location.href = '/login';
+                    }
+                }
+            })
+        })
+    </script>
+  </body>
+</html>
